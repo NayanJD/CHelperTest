@@ -1,15 +1,25 @@
 package nj.graph;
 
+import nj.io.OutputWriter;
+
 public class Graph {
+
+    OutputWriter out;
     static int time=0;
+    static boolean[] bedges;
+    static int[] parent;
+    static int[] low;
+    static boolean[] visited;
+    static int[] dist;
 
     public int V;
     public long[][] edges;
     public long[][][] graph;
 
-    public Graph(long[][] edges,int V){
+    public Graph(long[][] edges,int V,OutputWriter out){
         this.edges=edges;
         this.V=V;
+        this.out=out;
 
         graph=new long[V][][];
 
@@ -39,75 +49,82 @@ public class Graph {
             graph[(int)edges[i][1]][0][0]=index;
         }
 
+//        for(int i=0;i<this.V;i++){
+//            for(int j=1;j<graph[i][0][0];j++){
+//                out.write(graph[i][0][j]+" "+graph[i][1][j]+"\n");
+//            }
+//            out.write("\n");
+//        }
+//
+//        out.write("---------------\n\n");
     }
 
     public boolean[] getBridges(){
-         boolean[] bedges=new boolean[this.edges.length];
+         bedges=new boolean[this.edges.length];
 
-         int[] parent=new int[this.V];
+         parent=new int[this.V];
          for(int i=0;i<this.V;i++){
              parent[i]=-1;
          }
 
-         int[] low=new int[this.V];
+         low=new int[this.V];
          for(int i=0;i<this.V;i++){
              low[i]=Integer.MAX_VALUE;
          }
 
-         int[] dist=new int[this.V];
+         dist=new int[this.V];
 
-         boolean[] visited=new boolean[this.V];
+         visited=new boolean[this.V];
 
-         time=0;
+         Graph.time=0;
 
-         bridgedfs(0,bedges,parent,low,dist,visited);
+         bridgedfs(0);
 
          return bedges;
 
 
     }
 
-    public void bridgedfs(int vertex,boolean[] bedges,int[] parent,int[] low,int[] dist,boolean[] visited){
+    public void bridgedfs(int vertex){
 
         visited[vertex]=true;
 
-        dist[vertex]=time+1;
-        low[vertex]=time+1;
+        dist[vertex]=Graph.time;
+        low[vertex]=Graph.time;
+
+        Graph.time++;
 
         int child=0;
         int cv=0;
         boolean pflag=false;
         for(int i=1;i<graph[vertex][0][0];i++){
             cv=(int)graph[vertex][0][i];
+            child++;
             if(!visited[cv]){
-                child++;
+
 
                 parent[cv]=vertex;
 
-                bridgedfs(cv,bedges,parent,low,dist,visited);
+                bridgedfs(cv);
 
                 low[vertex]=Math.min(low[vertex],low[cv]);
 
-                if(parent[vertex]!=-1 && low[vertex]>=low[cv]){
+                if(parent[vertex]!=-1 && dist[vertex]<low[cv]){
                     bedges[(int)graph[vertex][1][i]]=true;
                 }
 
-                if(parent[vertex]==-1){
-                    pflag=false;
-                    for(int j=i;j<graph[vertex][0][0];j++){
-                        if(j!=i && visited[(int)graph[vertex][0][j]]){
-                            pflag=true;
-                            break;
-                        }
-
-                    }
-
-                    if(!pflag)
-                        bedges[(int)graph[vertex][1][i]]=true;
-
+                if(parent[vertex]==-1 && dist[vertex]<low[cv]){
+                    bedges[(int)graph[vertex][1][cv]]=true;
                 }
 
+            }else if(parent[vertex]!=cv){
+                low[vertex]=Math.min(low[vertex],low[cv]);
             }
         }
+
+        if(child==1)
+            bedges[(int)graph[vertex][0][1]]=true;
+
+
     }
 }

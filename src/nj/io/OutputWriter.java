@@ -4,7 +4,7 @@ import java.io.*;
 
 public class OutputWriter{
     private OutputStream w;
-    private PrintWriter writer;
+    private Writer writer;
     final private static int SIZE = 1 << 16;
     final private byte[] buff=new byte[SIZE];
     final private char[] cbuff=new char[SIZE];
@@ -17,7 +17,7 @@ public class OutputWriter{
     }
 
     public OutputWriter(Writer out){
-        this.writer=(PrintWriter)out;
+        this.writer=out;
         iswriter=true;
     }
 //    public Writer(File file) throws Exception{
@@ -64,7 +64,7 @@ public class OutputWriter{
         //System.out.println("closed");
         try{
             flush();
-            writer.close();
+            //writer.close();
         }catch(Exception e){
 
         }
