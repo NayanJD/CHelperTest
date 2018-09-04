@@ -1,0 +1,34 @@
+{
+  "name" : "Remove Friends2",
+  "testType" : "MULTI_NUMBER",
+  "input" : {
+    "type" : "STANDARD",
+    "fileName" : "input.txt"
+  },
+  "output" : {
+    "type" : "STANDARD",
+    "fileName" : "output.txt"
+  },
+  "tests" : [ {
+    "input" : "3\n3 1\n3 100 1\n5 2\n19 12 3 4 17\n5 3\n23 45 11 77 18",
+    "output" : "100 1 \n19 12 17 \n77 18 \n",
+    "index" : 0,
+    "active" : true
+  } ],
+  "location" : "src/codes",
+  "vmArgs" : "-Xmx256M",
+  "mainClass" : "Main",
+  "taskClass" : "codes.RemoveFriends2",
+  "checkerClass" : "net.egork.chelper.checkers.TokenChecker",
+  "checkerParameters" : "",
+  "testClasses" : [ ],
+  "date" : "2018.09.02",
+  "contestName" : "ThoughtWorks Hiring Challenge",
+  "truncate" : true,
+  "inputClass" : "nj.io.InputReader",
+  "outputClass" : "nj.io.OutputWriter",
+  "includeLocale" : false,
+  "failOnOverflow" : false,
+  "interactive" : false,
+  "interactor" : "net.egork.chelper.tester.Interactor"
+}

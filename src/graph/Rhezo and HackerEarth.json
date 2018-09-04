@@ -1,0 +1,34 @@
+{
+  "name" : "Rhezo and HackerEarth",
+  "testType" : "MULTI_NUMBER",
+  "input" : {
+    "type" : "STANDARD",
+    "fileName" : "input.txt"
+  },
+  "output" : {
+    "type" : "STANDARD",
+    "fileName" : "output.txt"
+  },
+  "tests" : [ {
+    "input" : "5 5\n1 2\n2 3\n3 4\n4 5\n3 5\n5\n1\n2\n3\n4\n5\n",
+    "output" : "Unhappy\nUnhappy\nHappy\nHappy\nHappy\n",
+    "index" : 0,
+    "active" : true
+  } ],
+  "location" : "src/graph",
+  "vmArgs" : "-Xmx256M",
+  "mainClass" : "Main",
+  "taskClass" : "graph.RhezoAndHackerEarth",
+  "checkerClass" : "net.egork.chelper.checkers.TokenChecker",
+  "checkerParameters" : "",
+  "testClasses" : [ ],
+  "date" : "2018.09.04",
+  "contestName" : "",
+  "truncate" : true,
+  "inputClass" : "nj.io.InputReader",
+  "outputClass" : "nj.io.OutputWriter",
+  "includeLocale" : false,
+  "failOnOverflow" : false,
+  "interactive" : false,
+  "interactor" : "net.egork.chelper.tester.Interactor"
+}
