@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.io.BufferedWriter;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
@@ -23,55 +22,47 @@ public class Main {
         OutputStream outputStream = System.out;
         InputReader in = new InputReader(inputStream);
         FastWriter out = new FastWriter(outputStream);
-        RaghuVsSayan solver = new RaghuVsSayan();
-        int testCount = Integer.parseInt(in.next());
-        for (int i = 1; i <= testCount; i++)
-            solver.solve(i, in, out);
+        OddEvenSubarrays solver = new OddEvenSubarrays();
+        solver.solve(1, in, out);
         out.close();
     }
 
-    static class RaghuVsSayan {
+    static class OddEvenSubarrays {
         public void solve(int testNumber, InputReader in, FastWriter out) {
 
-            int A = in.nextInt();
-            int B = in.nextInt();
             int N = in.nextInt();
 
-            long[] arr = new long[N];
+            int[] arr = new int[N + 1];
+            arr[0] = 0;
 
-            for (int i = 0; i < N; i++) {
-                arr[i] = in.nextInt();
+            long count = 0;
+
+            int[] pos = new int[N];
+            pos[0] = 1;
+
+            int[] neg = new int[N];
+
+            try {
+                for (int i = 0; i < N; i++) {
+                    if (in.nextInt() % 2 == 0) {
+                        arr[i + 1] = arr[i] - 1;
+                    } else {
+                        arr[i + 1] = arr[i] + 1;
+                    }
+
+                    if (arr[i + 1] >= 0) {
+                        count += pos[arr[i + 1]];
+                        pos[arr[i + 1]]++;
+                    } else {
+                        count += neg[-arr[i + 1]];
+                        neg[-arr[i + 1]]++;
+                    }
+                }
+            } catch (Exception e) {
+                count = 0;
             }
-
-            Arrays.sort(arr);
-
-            long[] sum = new long[N];
-            long su = 0;
-            for (int i = 0; i < N; i++) {
-                su += arr[i];
-                sum[i] = su;
-            }
-
-            int countA = 0;
-            for (int i = 0; i < N; i++) {
-                if (sum[i] > A)
-                    break;
-                countA++;
-            }
-
-            int countB = 0;
-            for (int i = 0; i < N; i++) {
-                if (sum[i] > B)
-                    break;
-                countB++;
-            }
-
-            if (countA > countB)
-                out.printLine("Raghu Won");
-            else if (countB > countA)
-                out.printLine("Sayan Won");
-            else
-                out.printLine("Tie");
+            out.printLine(count);
+            //out.printLine(scount);
         }
 
     }
@@ -123,26 +114,10 @@ public class Main {
             return res * sgn;
         }
 
-        public String readString() {
-            int c = snext();
-            while (isSpaceChar(c))
-                c = snext();
-            StringBuilder res = new StringBuilder();
-            do {
-                res.appendCodePoint(c);
-                c = snext();
-            } while (!isSpaceChar(c));
-            return res.toString();
-        }
-
         public boolean isSpaceChar(int c) {
             if (filter != null)
                 return filter.isSpaceChar(c);
             return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
-        }
-
-        public String next() {
-            return readString();
         }
 
         public interface SpaceCharFilter {
